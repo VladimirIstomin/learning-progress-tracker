@@ -1,7 +1,7 @@
-package tracker;
-
+package tracker.daos;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tracker.Student;
 
 import static org.junit.jupiter.api.Assertions.*;
 

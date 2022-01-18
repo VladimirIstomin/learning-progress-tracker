@@ -1,17 +1,22 @@
-package tracker;
+package tracker.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tracker.daos.CoursesDao;
+import tracker.Student;
+import tracker.daos.StudentDao;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StudentServiceImplTest {
     StudentDao studentDao;
+    CoursesDao coursesDao;
     Student testStudent;
     StudentService studentService;
 
@@ -43,7 +48,21 @@ class StudentServiceImplTest {
             }
         };
 
-        studentService = new StudentServiceImpl(studentDao);
+        coursesDao = new CoursesDao() {
+
+            @Override
+            public void addAssignment(String courseName, Map<String, Integer> assignment) {}
+
+            @Override
+            public List<Integer> getAllAssignmentsByStudentId(String courseName, String studentId) {
+                if (testStudent != null) {
+                    return List.of(0);
+                }
+                return null;
+            }
+        };
+
+        studentService = new StudentServiceImpl(studentDao, coursesDao);
     }
 
     @Test
@@ -87,34 +106,6 @@ class StudentServiceImplTest {
         assertEquals("Students:\n1\n", byteArrayOutputStream.toString());
         System.setOut(out);
     }
-
-    @Test
-    void addPointsWrongFormat() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> studentService.addPoints("1 2 3")); // not enough parameters
-        assertThrows(RuntimeException.class, () -> studentService.addPoints("1 2 3 4 5 6")); // too many parameters
-        assertThrows(NumberFormatException.class, () -> studentService.addPoints("a b c")); // parameters not integers
-    }
-
-    @Test
-    void addPointNotFoundStudentId() { // a student with id '42' has been created yet
-        PrintStream out = System.out;
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(byteArrayOutputStream));
-        studentService.addPoints("42 1 2 3 4");
-        assertEquals("No student is found for id=42.\n", byteArrayOutputStream.toString());
-        System.setOut(out);
-    }
-
-    @Test
-    void addPointsCorrect() {
-        studentService.createStudent("Hello World hello@world.com");
-        PrintStream out = System.out;
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(byteArrayOutputStream));
-        studentService.addPoints("0 1 2 3 4");
-        assertEquals("Points updated.\n", byteArrayOutputStream.toString());
-        System.setOut(out);
-    };
 
     @Test
     void showStudentInfoNotFoundStudentId() {

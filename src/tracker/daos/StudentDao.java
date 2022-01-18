@@ -1,4 +1,6 @@
-package tracker;
+package tracker.daos;
+
+import tracker.Student;
 
 import java.util.List;
 import java.util.Optional;

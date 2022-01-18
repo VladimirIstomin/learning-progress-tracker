@@ -87,24 +87,4 @@ class StudentTest {
                 "123@123.123", "hello123@hello.123.com"
         );
     }
-
-    @Test
-    void addPointsIncorrect() { // points cannot be negative
-        assertThrows(RuntimeException.class, () -> student.addPoints(-1, 1, 1, 1));
-    }
-
-    @Test
-    void addPointsCorrect() {
-        student.addPoints(1, 2, 3, 4);
-        assertEquals(1, student.getJavaPoints());
-        assertEquals(2, student.getDsaPoints());
-        assertEquals(3, student.getDatabasesPoints());
-        assertEquals(4, student.getSpringPoints());
-
-        student.addPoints(4, 3, 2, 1);
-        assertEquals(5, student.getJavaPoints());
-        assertEquals(5, student.getDsaPoints());
-        assertEquals(5, student.getDatabasesPoints());
-        assertEquals(5, student.getSpringPoints());
-    }
 }

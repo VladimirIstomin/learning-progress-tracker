@@ -1,13 +1,19 @@
-package tracker;
+package tracker.services;
+
+import tracker.daos.CoursesDao;
+import tracker.Student;
+import tracker.daos.StudentDao;
 
 import java.util.List;
 import java.util.Optional;
 
 public class StudentServiceImpl implements StudentService {
     private final StudentDao studentDao;
+    private final CoursesDao coursesDao;
 
-    public StudentServiceImpl(StudentDao studentDao) {
+    public StudentServiceImpl(StudentDao studentDao, CoursesDao coursesDao) {
         this.studentDao = studentDao;
+        this.coursesDao = coursesDao;
     }
 
     @Override
@@ -37,42 +43,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void addPoints(String command) {
-        String[] updatePointsData = command.split("\\s+");
-        if (updatePointsData.length > 5) {
-            throw new RuntimeException("Incorrect points format.");
-        }
-        String id = updatePointsData[0];
-        int javaPoints = Integer.parseInt(updatePointsData[1]);
-        int dsaPoints = Integer.parseInt(updatePointsData[2]);
-        int databasesPoints = Integer.parseInt(updatePointsData[3]);
-        int springPoints = Integer.parseInt(updatePointsData[4]);
-
-        Optional<Student> studentOptional = studentDao.getStudentById(id);
-        if (studentOptional.isEmpty()) {
-            System.out.println("No student is found for id=" + id + ".");
-        } else {
-            Student student = studentOptional.get();
-            student.addPoints(javaPoints, dsaPoints, databasesPoints, springPoints);
-            System.out.println("Points updated.");
-        }
-    }
-
-    @Override
     public void showStudentInfo(String command) {
         Optional<Student> studentOptional = studentDao.getStudentById(command);
         if (studentOptional.isEmpty()) {
             System.out.println("No student is found for id=" + command + ".");
         } else {
-            Student student = studentOptional.get();
             System.out.printf(
                     "%s points: Java=%d; DSA=%d; Databases=%d; Spring=%d\n",
                     command,
-                    student.getJavaPoints(),
-                    student.getDsaPoints(),
-                    student.getDatabasesPoints(),
-                    student.getSpringPoints());
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Java", command)),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("DSA", command)),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Databases", command)),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Spring", command)));
         }
+    }
+
+    private int sumAssignmentsPoints(List<Integer> assignments) {
+        return assignments.stream().mapToInt(i -> i).sum();
     }
 
     @Override
