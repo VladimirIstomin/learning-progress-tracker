@@ -1,5 +1,6 @@
 package tracker.services;
 
+import tracker.CourseSubject;
 import tracker.daos.CoursesDao;
 import tracker.Student;
 import tracker.daos.StudentDao;
@@ -34,10 +35,10 @@ public class CourseServiceImpl implements CourseService {
         if (studentOptional.isEmpty()) {
             System.out.println("No student is found for id=" + id + ".");
         } else {
-            coursesDao.addAssignment("Java", Map.of(id, javaPoints));
-            coursesDao.addAssignment("DSA", Map.of(id, dsaPoints));
-            coursesDao.addAssignment("Databases", Map.of(id, databasesPoints));
-            coursesDao.addAssignment("Spring", Map.of(id, springPoints));
+            coursesDao.addAssignment(CourseSubject.JAVA, Map.of(id, javaPoints));
+            coursesDao.addAssignment(CourseSubject.DSA, Map.of(id, dsaPoints));
+            coursesDao.addAssignment(CourseSubject.DATABASES, Map.of(id, databasesPoints));
+            coursesDao.addAssignment(CourseSubject.SPRING, Map.of(id, springPoints));
             System.out.println("Points updated.");
         }
     }

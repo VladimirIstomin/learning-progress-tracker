@@ -33,7 +33,7 @@ public class MainMenuController {
             } else if (command.equals("find")) {
                 studentMenuController.startShowStudentInfo();
             } else if (command.equals("statistics")) {
-                courseMenuController.start();
+                courseMenuController.startShowCourseDetails();
             } else if (command.equals("exit")) {
                 System.out.println("Bye!");
                 break;

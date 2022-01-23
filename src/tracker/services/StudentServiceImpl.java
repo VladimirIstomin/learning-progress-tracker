@@ -1,5 +1,6 @@
 package tracker.services;
 
+import tracker.CourseSubject;
 import tracker.daos.CoursesDao;
 import tracker.Student;
 import tracker.daos.StudentDao;
@@ -49,12 +50,16 @@ public class StudentServiceImpl implements StudentService {
             System.out.println("No student is found for id=" + command + ".");
         } else {
             System.out.printf(
-                    "%s points: Java=%d; DSA=%d; Databases=%d; Spring=%d\n",
+                    "%s points: %s=%d; %s=%d; %s=%d; %s=%d\n",
                     command,
-                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Java", command)),
-                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("DSA", command)),
-                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Databases", command)),
-                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId("Spring", command)));
+                    CourseSubject.JAVA.getName(),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId(CourseSubject.JAVA, command)),
+                    CourseSubject.DSA.getName(),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId(CourseSubject.DSA, command)),
+                    CourseSubject.DATABASES.getName(),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId(CourseSubject.DATABASES, command)),
+                    CourseSubject.SPRING.getName(),
+                    sumAssignmentsPoints(coursesDao.getAllAssignmentsByStudentId(CourseSubject.SPRING, command)));
         }
     }
 

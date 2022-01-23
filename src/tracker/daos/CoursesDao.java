@@ -1,10 +1,11 @@
 package tracker.daos;
 
+import tracker.CourseSubject;
 import java.util.List;
 import java.util.Map;
 
 public interface CoursesDao {
-    void addAssignment(String courseName, Map<String, Integer> assignment);
+    void addAssignment(CourseSubject CourseSubject, Map<String, Integer> assignment);
 
-    List<Integer> getAllAssignmentsByStudentId(String courseName, String studentId);
+    List<Integer> getAllAssignmentsByStudentId(CourseSubject CourseSubject, String studentId);
 }

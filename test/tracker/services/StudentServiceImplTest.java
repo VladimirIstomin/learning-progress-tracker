@@ -2,6 +2,7 @@ package tracker.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tracker.CourseSubject;
 import tracker.daos.CoursesDao;
 import tracker.Student;
 import tracker.daos.StudentDao;
@@ -51,10 +52,10 @@ class StudentServiceImplTest {
         coursesDao = new CoursesDao() {
 
             @Override
-            public void addAssignment(String courseName, Map<String, Integer> assignment) {}
+            public void addAssignment(CourseSubject CourseSubject, Map<String, Integer> assignment) {}
 
             @Override
-            public List<Integer> getAllAssignmentsByStudentId(String courseName, String studentId) {
+            public List<Integer> getAllAssignmentsByStudentId(CourseSubject CourseSubject, String studentId) {
                 if (testStudent != null) {
                     return List.of(0);
                 }

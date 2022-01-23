@@ -1,5 +1,6 @@
 package tracker.controllers;
 
+import tracker.CourseSubject;
 import tracker.services.CourseService;
 import tracker.services.StudentService;
 
@@ -36,13 +37,17 @@ public class CourseMenuController {
         }
     }
 
-    public void start() {
+    public void startShowCourseDetails() {
         System.out.println("Type the name of a course to see details or 'back' to quit:");
         while (true) {
             String command = scanner.nextLine().trim();
 
             if (command.equals("back")) {
                 break;
+            } else if (CourseSubject.getCourseByName(command).isPresent()) {
+                // lol
+            } else {
+                System.out.println("Unknown course.");
             }
         }
     }
